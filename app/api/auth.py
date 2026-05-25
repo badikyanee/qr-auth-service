@@ -55,12 +55,12 @@ def login(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+    # Внутри функции login после проверки пароля:
     access_token = create_access_token(
-        data={"sub": user.username},
-        expires_delta=timedelta(
-            minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
-        )
-    )
+        data={"sub": str(user.id)},  # ← ВАЖНО: передаем именно ID из базы (число), приведенное к строке
+        expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+)
+
 
     return {
         "access_token": access_token,

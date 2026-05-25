@@ -4,11 +4,14 @@ from app.core.config import settings
 from app.db.session import engine
 from app.db.base import Base
 
-from app.models import user  # важно: чтобы модель зарегистрировалась
+from app.models import user 
 
 from app.api.auth import router as auth_router
 from app.api.qr import router as qr_router
 from app.api.data import router as data_router
+
+
+from app.core.middleware import AuthMiddleware
 
 
 app = FastAPI(
@@ -21,7 +24,11 @@ app = FastAPI(
 )
 
 
-# 👉 СОЗДАНИЕ ТАБЛИЦ (ТОЛЬКО ДЛЯ DEV)
+
+app.add_middleware(AuthMiddleware)
+
+
+
 Base.metadata.create_all(bind=engine)
 
 

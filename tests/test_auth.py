@@ -1,6 +1,5 @@
 import uuid
 
-
 def test_signup(test_client):
     unique_username = f"user_{uuid.uuid4().hex[:8]}"
 
@@ -20,12 +19,14 @@ def test_signup(test_client):
 def test_login(test_client):
     unique_username = f"user_{uuid.uuid4().hex[:8]}"
 
+    # Регистрируем пользователя через JSON
     test_client.post("/auth/signup", json={
         "username": unique_username,
         "password": "testpass"
     })
 
-    response = test_client.post("/auth/login", json={
+    # ИСПРАВЛЕНО: Для логина передаем данные через data= (как форму form-data)
+    response = test_client.post("/auth/login", data={
         "username": unique_username,
         "password": "testpass"
     })
