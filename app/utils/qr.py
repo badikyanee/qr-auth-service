@@ -1,9 +1,9 @@
 import qrcode
 from io import BytesIO
 from fastapi import HTTPException
-from app.core.config import settings
 
 def generate_qr_code(data: str) -> bytes:
+    """Генерирует QR-код и возвращает PNG в виде байтов"""
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
